@@ -7,5 +7,4 @@ addons:
 before_script:
   - npm run elm-reactor &
 
-script:
-  - npm test
+script: xvfb-run npm test
