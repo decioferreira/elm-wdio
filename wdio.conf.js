@@ -56,7 +56,13 @@ exports.config = {
       // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
       // excludeDriverLogs: ['bugreport', 'server'],
     },
-    { maxInstances: 5, browserName: "chrome" }
+    {
+      maxInstances: 5,
+      browserName: "chrome",
+      chromeOptions: {
+        args: ["headless", "disable-gpu", "no-sandbox"]
+      }
+    }
   ],
   //
   // ===================
@@ -199,12 +205,21 @@ exports.config = {
   /**
    * Function to be executed after a test (in Mocha/Jasmine).
    */
-  afterTest: function(test, context, { error, result, duration, passed, retries }) {
+  afterTest: function(
+    test,
+    context,
+    { error, result, duration, passed, retries }
+  ) {
     if (test.passed) {
       return;
     }
 
-    browser.saveScreenshot(`./errorShots/${new Date().toISOString()}-${test.title.replace( /\s+/g, "-" )}.png`);
+    browser.saveScreenshot(
+      `./errorShots/${new Date().toISOString()}-${test.title.replace(
+        /\s+/g,
+        "-"
+      )}.png`
+    );
   }
 
   /**
