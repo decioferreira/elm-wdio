@@ -18,6 +18,7 @@
     "wdio-chromedriver-service": "^5.0.2"
   },
   "scripts": {
+    "elm-reactor": "elm reactor"
     "test": "wdio"
   },
   "author": "",

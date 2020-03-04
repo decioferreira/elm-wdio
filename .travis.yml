@@ -4,5 +4,8 @@ addons:
   chrome: stable
   firefox: "latest"
 
+before_script:
+  - node elm-reactor &
+
 script:
   - npm test
