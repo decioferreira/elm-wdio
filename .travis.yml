@@ -1,0 +1,8 @@
+language: elm
+
+addons:
+  chrome: stable
+  firefox: "latest"
+
+script:
+  - npm test
