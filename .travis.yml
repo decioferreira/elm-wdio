@@ -5,7 +5,7 @@ addons:
   firefox: "latest"
 
 before_script:
-  - node elm-reactor &
+  - npm run elm-reactor &
 
 script:
   - npm test
