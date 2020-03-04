@@ -1,19 +1,3 @@
-const seleniumArgs = {
-  // check for more recent versions of selenium here:
-  // https://selenium-release.storage.googleapis.com/index.html
-  version: "3.141.5",
-  baseURL: "https://selenium-release.storage.googleapis.com",
-  drivers: {
-    chrome: {
-      // Pin the version of chromedriver
-      // https://youtrack.featurespace.net/issue/ARIC-12375
-      version: "2.42",
-      arch: process.arch,
-      baseURL: "https://chromedriver.storage.googleapis.com"
-    }
-  }
-};
-
 exports.config = {
   //
   // ====================
@@ -61,29 +45,19 @@ exports.config = {
   //
   capabilities: [
     {
-      browserName: "chrome",
-      "goog:chromeOptions": {
-        // to run chrome headless the following flags are required
-        // (see https://developers.google.com/web/updates/2017/04/headless-chrome)
-        args: [
-          "--headless",
-          "--disable-gpu",
-          "--window-size=1440,900",
-          // Running as root without --no-sandbox is not supported. See https://crbug.com/638180.
-          "--no-sandbox"
-        ]
-      }
+      // maxInstances can get overwritten per capability. So if you have an in-house Selenium
+      // grid with only 5 firefox instances available you can make sure that not more than
+      // 5 instances get started at a time.
+      maxInstances: 5,
+      //
+      browserName: "firefox"
+      // If outputDir is provided WebdriverIO can capture driver session logs
+      // it is possible to configure which logTypes to include/exclude.
+      // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
+      // excludeDriverLogs: ['bugreport', 'server'],
     },
-    // {
-    //   browserName: "firefox",
-    //   "moz:firefoxOptions": {
-    //     // flag to activate Firefox headless mode (see https://github.com/mozilla/geckodriver/blob/master/README.md#firefox-capabilities for more details about moz:firefoxOptions)
-    //     args: ["-headless"]
-    //   }
-    // },
+    { maxInstances: 5, browserName: "chrome" }
   ],
-  seleniumArgs,
-  seleniumInstallArgs: seleniumArgs,
   //
   // ===================
   // Test Configurations
@@ -91,7 +65,7 @@ exports.config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: "info",
+  logLevel: "error",
   //
   // Set specific log levels per logger
   // loggers:
@@ -189,6 +163,8 @@ exports.config = {
   before: function(capabilities, specs) {
     const chai = require("chai");
     global.expect = chai.expect;
+
+    require("./test/custom-commands");
   },
   /**
    * Runs before a WebdriverIO command gets executed.
@@ -223,21 +199,12 @@ exports.config = {
   /**
    * Function to be executed after a test (in Mocha/Jasmine).
    */
-  afterTest: function(
-    test,
-    context,
-    { error, result, duration, passed, retries }
-  ) {
+  afterTest: function(test, context, { error, result, duration, passed, retries }) {
     if (test.passed) {
       return;
     }
 
-    browser.saveScreenshot(
-      `./errorShots/${new Date().toISOString()}-${test.title.replace(
-        /\s+/g,
-        "-"
-      )}.png`
-    );
+    browser.saveScreenshot(`./errorShots/${new Date().toISOString()}-${test.title.replace( /\s+/g, "-" )}.png`);
   }
 
   /**

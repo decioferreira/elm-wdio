@@ -29,7 +29,7 @@ update msg model =
 view : Int -> Html Msg
 view model =
     div [ id "quick-sample" ]
-        [ button [ onClick Decrement ] [ text "-" ]
-        , div [] [ text (String.fromInt model) ]
-        , button [ onClick Increment ] [ text "+" ]
+        [ button [ id "decrement", onClick Decrement ] [ text "-" ]
+        , div [ id "count" ] [ text (String.fromInt model) ]
+        , button [ id "increment", onClick Increment ] [ text "+" ]
         ]
