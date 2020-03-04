@@ -1,5 +1,7 @@
 language: elm
 
+sudo: required
+
 addons:
   chrome: stable
   firefox: "latest"

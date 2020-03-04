@@ -5,7 +5,7 @@ describe("Html.map + blur event elm/virtual-dom#103", function() {
     $("#html-map-blur").waitForExist();
   });
 
-  it.only("no impossible messages", function() {
+  it("no impossible messages", function() {
     $("#go-to-b").click();
 
     expect(browser.consoleLogs()).to.not.include(
