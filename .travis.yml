@@ -6,5 +6,6 @@ addons:
 
 before_script:
   - npm run elm-reactor &
+  - sleep 10
 
 script: xvfb-run npm test
