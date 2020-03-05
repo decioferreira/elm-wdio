@@ -222,10 +222,10 @@ exports.config = {
     }
 
     browser.saveScreenshot(
-      `./errorShots/${new Date().toISOString()}-${test.title.replace(
-        /\s+/g,
-        "-"
-      )}.png`
+      `./errorShots/${new Date().toISOString()}-${test.fullTitle
+        .toLowerCase()
+        .replace(/[\\/:"*?<>|]+/g, "")
+        .replace(/\s+/g, "-")}.png`
     );
   }
 

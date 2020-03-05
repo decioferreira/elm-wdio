@@ -8,6 +8,8 @@ describe("Html.map + blur event elm/virtual-dom#103", function() {
   it("no impossible messages", function() {
     $("#go-to-b").click();
 
+    $("#go-to-a").waitForExist();
+
     expect(browser.consoleLogs()).to.not.include(
       "( msg, model ): (MsgB BlurA,B)"
     );
