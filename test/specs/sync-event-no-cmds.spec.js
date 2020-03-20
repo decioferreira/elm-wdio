@@ -5,7 +5,7 @@ describe("Task not performed as expected during synchronous event processing elm
     $("#step-a").waitForExist();
   });
 
-  it.only("shows current time", function() {
+  it("shows current time", function() {
     $("#text-input").click();
     browser.keys("Enter");
 

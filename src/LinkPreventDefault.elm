@@ -3,7 +3,7 @@ module LinkPreventDefault exposing (main)
 import Browser
 import Browser.Navigation
 import Html exposing (Html, a, b, div, li, p, text, ul)
-import Html.Attributes exposing (href, id)
+import Html.Attributes exposing (href, id, target)
 import Html.Events exposing (preventDefaultOn)
 import Json.Decode as Decode
 import Url
@@ -109,6 +109,17 @@ view model =
                         , preventDefaultOn "click" (Decode.succeed ( OnClick, True ))
                         ]
                         [ text "click me" ]
+                    ]
+                , li []
+                    [ a
+                        [ id "workaround"
+                        , href "#workaround"
+                        , preventDefaultOn "click" (Decode.succeed ( OnClick, True ))
+
+                        -- WORKAROUND
+                        , target "_self"
+                        ]
+                        [ text "workaround" ]
                     ]
                 ]
             ]
